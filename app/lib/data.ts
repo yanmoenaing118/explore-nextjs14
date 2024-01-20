@@ -10,20 +10,22 @@ import {
 } from './definitions';
 import { formatCurrency } from './utils';
 
+
 export async function fetchRevenue() {
   // Add noStore() here to prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
+  // noStore();
 
   try {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
 
-    // console.log('Fetching revenue data...');
-    // await new Promise((resolve) => setTimeout(resolve, 3000));
+    console.log('Fetching revenue data...');
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
     const data = await sql<Revenue>`SELECT * FROM revenue`;
 
-    // console.log('Data fetch completed after 3 seconds.');
+    console.log('Data fetch completed after 3 seconds.');
 
     return data.rows;
   } catch (error) {
@@ -92,6 +94,7 @@ export async function fetchFilteredInvoices(
   query: string,
   currentPage: number,
 ) {
+  console.log('filtered Invoice ----- fetch----')
   const offset = (currentPage - 1) * ITEMS_PER_PAGE;
 
   try {
@@ -121,6 +124,7 @@ export async function fetchFilteredInvoices(
     console.error('Database Error:', error);
     throw new Error('Failed to fetch invoices.');
   }
+  console.log('filtered Invoice ----- fetch end----')
 }
 
 export async function fetchInvoicesPages(query: string) {
