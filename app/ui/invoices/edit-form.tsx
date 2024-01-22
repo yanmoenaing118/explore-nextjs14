@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 
 import { CustomerField, InvoiceForm } from '@/app/lib/definitions';
 import {
@@ -9,16 +9,25 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
+import { fetchCustomers, fetchInvoiceById } from '@/app/lib/data';
+import { updateInvoice } from '@/app/lib/actions';
 
-export default function EditInvoiceForm({
-  invoice,
-  customers,
+
+export default async function EditInvoiceForm({
+  invoiceId,
 }: {
-  invoice: InvoiceForm;
-  customers: CustomerField[];
+  invoiceId: string;
 }) {
+  console.log('invoice id', invoiceId)
+  const [invoice, customers] = await Promise.all([
+    fetchInvoiceById(invoiceId),
+    fetchCustomers(),
+  ]);
+
+  const updateInvoiceWithId = updateInvoice.bind(null, invoiceId);
+
   return (
-    <form>
+    <form action={updateInvoiceWithId}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
